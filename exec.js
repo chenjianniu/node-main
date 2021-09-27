@@ -5,10 +5,9 @@ async function setStdMsg({
   command,
   objectMap,
 }) {
-  return new Promise(resolve => {
+  return new Promise((resolve, rejects) => {
     const child = exec(command, {
       cwd,
-      // stdio: 'pipe',
       encoding: 'utf8',
     });
     child.stdout.on('data', data => {
@@ -26,6 +25,7 @@ async function setStdMsg({
       }
     });
     child.on('exit', () => resolve(child));
+    child.on('error', (error) => rejects(error));
   });
 }
 

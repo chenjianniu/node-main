@@ -5,7 +5,7 @@ async function setStdMsg({
   command,
   objectMap,
 }) {
-  return new Promise(resolve => {
+  return new Promise((resolve, rejects) => {
     const args = command.split(/\s+/);
     const child = spawn(args.shift(), args, {
       cwd,
@@ -27,6 +27,7 @@ async function setStdMsg({
       }
     });
     child.on('exit', () => resolve(child));
+    child.on('error', (error) => rejects(error));
   });
 }
 
