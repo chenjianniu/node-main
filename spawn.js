@@ -27,7 +27,8 @@ async function setStdMsg({
       }
     });
     child.on('exit', () => resolve(child));
-    child.on('error', (error) => rejects(error));
+    child.on('error', error => rejects(error));
+    child.stderr.on('data', error => rejects(error));
   });
 }
 
